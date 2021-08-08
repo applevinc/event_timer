@@ -1,16 +1,24 @@
+import 'package:event_timer/view/style/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        body: Center(child: Image.asset('assets/logo.png')),
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      builder: () => MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.defaultTheme(),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('Event Timer'),
+          ),
+          body: Center(child: Image.asset('assets/logo.png')),
+        ),
       ),
     );
   }
