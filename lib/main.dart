@@ -1,3 +1,4 @@
+import 'package:event_timer/view/screens/home/home.dart';
 import 'package:event_timer/view/style/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,14 +13,10 @@ class MyApp extends StatelessWidget {
       builder: () => MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.defaultTheme(),
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text('Event Timer'),
-          ),
-          body: Center(child: Image.asset('assets/logo.png')),
-        ),
+        theme: AppTheme.defaultTheme,
+        home: HomeScreen(),
       ),
     );
   }
 }
+
