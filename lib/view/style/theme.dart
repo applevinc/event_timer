@@ -30,8 +30,17 @@ class AppTheme {
             backgroundColor: AppColors.darker_grey,
             brightness: Brightness.dark,
             centerTitle: true),
-        floatingActionButtonTheme:
-            FloatingActionButtonThemeData(shape: RoundedRectangleBorder()),
+        inputDecorationTheme: InputDecorationTheme(
+          hintStyle: TextStyle(fontSize: 20.sp, color: AppColors.light_grey),
+          filled: true,
+          fillColor: AppColors.dark_grey,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
         textTheme: TextTheme(
             headline4: TextStyle(fontSize: 28.sp),
             headline6: TextStyle(fontSize: 20.sp),
