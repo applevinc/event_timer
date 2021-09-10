@@ -1,14 +1,26 @@
+import 'package:event_timer/models/event.dart';
+import 'package:event_timer/notifiers/event_list_notifier.dart';
 import 'package:event_timer/view/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-class AddEventBottomSheet extends StatelessWidget {
+class AddEventBottomSheet extends StatefulWidget {
   const AddEventBottomSheet({
     Key key,
   }) : super(key: key);
 
   @override
+  _AddEventBottomSheetState createState() => _AddEventBottomSheetState();
+}
+
+class _AddEventBottomSheetState extends State<AddEventBottomSheet> {
+  final newEvent = Event();
+
+  @override
   Widget build(BuildContext context) {
+    var eventListNotifier = context.watch<EventListNotifier>();
+
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: Container(
@@ -22,8 +34,11 @@ class AddEventBottomSheet extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Enter Event Name',
               ),
+              onChanged: (value) {
+                newEvent.name = value;
+              },
             ),
-            RequiredText(),
+            _RequiredText(),
             SizedBox(height: 15.h),
             SizedBox(
               height: 106.h,
@@ -39,7 +54,7 @@ class AddEventBottomSheet extends StatelessWidget {
                         firstDate: DateTime.now(),
                         lastDate: DateTime.utc(3000, 12, 1),
                       ).then((value) {
-                        //send picked date to countdown
+                        newEvent.date = value;
                       });
                     },
                   ),
@@ -55,7 +70,7 @@ class AddEventBottomSheet extends StatelessWidget {
                               textDirection: TextDirection.rtl, child: child);
                         },
                       ).then((value) {
-                        //send picked time to countdown
+                        newEvent.timeOfDay = value;
                       });
                     },
                   )
@@ -66,7 +81,10 @@ class AddEventBottomSheet extends StatelessWidget {
             CustomButton(
               label: 'Start',
               onTap: () {
-                // start countdown
+                print(newEvent.name);
+                newEvent.computeDurationLeft();
+                eventListNotifier.add(newEvent);
+                Navigator.pop(context);
               },
             )
           ],
@@ -76,8 +94,8 @@ class AddEventBottomSheet extends StatelessWidget {
   }
 }
 
-class RequiredText extends StatelessWidget {
-  const RequiredText({
+class _RequiredText extends StatelessWidget {
+  const _RequiredText({
     Key key,
   }) : super(key: key);
 
@@ -121,12 +139,13 @@ class CustomButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 30.h),
               child: Text(
                 label,
-                style: Theme.of(context).textTheme.headline6.apply(color: Colors.white),
+                style:
+                    Theme.of(context).textTheme.headline6.copyWith(color: Colors.white),
               ),
             ),
             Visibility(
               visible: required,
-              child: RequiredText(),
+              child: _RequiredText(),
             ),
           ],
         ),

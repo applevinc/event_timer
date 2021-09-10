@@ -1,11 +1,14 @@
+import 'package:event_timer/models/event.dart';
 import 'package:event_timer/view/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({
-    Key key,
-  }) : super(key: key);
+  final Event event;
+
+  const EventCard(
+    this.event,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,8 @@ class EventCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Event Event',
-                style: Theme.of(context).textTheme.headline6.apply(
+                event.name,
+                style: Theme.of(context).textTheme.headline6.copyWith(
                       color: AppColors.light_grey,
                     ),
               ),
@@ -58,13 +61,15 @@ class EventCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              EventCountdownItem(),
+              EventCountdownItem(value: event.daysLeft, unit: "Days"),
               SizedBox(width: 5.w),
-              EventCountdownItem(),
+              EventCountdownItem(value: event.hrsLeft, unit: "Hours"),
               SizedBox(width: 5.w),
-              EventCountdownItem(),
+              EventCountdownItem(value: event.minsLeft, unit: "Minutes"),
+              SizedBox(width: 5.w),
+              EventCountdownItem(value: event.secsLeft, unit: "Seconds"),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -72,8 +77,13 @@ class EventCard extends StatelessWidget {
 }
 
 class EventCountdownItem extends StatelessWidget {
+  final String unit;
+  final int value;
+
   const EventCountdownItem({
     Key key,
+    @required this.unit,
+    @required this.value,
   }) : super(key: key);
 
   @override
@@ -88,17 +98,17 @@ class EventCountdownItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('00',
+          Text('$value',
               style: Theme.of(context)
                   .textTheme
                   .headline4
-                  .apply(color: AppColors.light_grey)),
+                  .copyWith(color: AppColors.light_grey)),
           SizedBox(height: 5.h),
-          Text('Days',
+          Text(unit,
               style: Theme.of(context)
                   .textTheme
                   .bodyText2
-                  .apply(color: AppColors.dark_grey)),
+                  .copyWith(color: AppColors.dark_grey)),
         ],
       ),
     );
